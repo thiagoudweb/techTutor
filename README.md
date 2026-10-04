@@ -66,6 +66,62 @@ O processo de ensino para cada nova funcionalidade segue um ciclo rigoroso de 8 
 
 ---
 
+## 🧭 Fluxo Visual do Tutor
+
+### Ciclo completo de uma task
+
+```mermaid
+flowchart TD
+    A["Boot<br/>Regras e memória"]:::sistema --> B["Specify<br/>spec-writer"]:::tutor
+    B --> C["Clarify<br/>Suposições = 0"]:::tutor
+    C --> D["Plan e tasks<br/>Aluno projeta"]:::aluno
+    D --> E["Implement<br/>Aluno codifica"]:::aluno
+    E --> F["Validate<br/>code-evaluator"]:::tutor
+    F --> G["Lições<br/>lessons-keeper"]:::tutor
+    G --> H["Próxima task<br/>Novo ciclo"]:::sistema
+    H -. volta ao Specify .-> B
+
+    classDef tutor fill:#EEEDFE,stroke:#534AB7,color:#26215C
+    classDef aluno fill:#E1F5EE,stroke:#0F6E56,color:#04342C
+    classDef sistema fill:#F1EFE8,stroke:#5F5E5A,color:#2C2C2A
+```
+
+> Legenda: roxo = tutor (skill) · verde = aluno · cinza = arquivo ou sistema.
+
+### Quando o aluno trava: Escada de Dicas
+
+```mermaid
+flowchart LR
+    T(["Travou na<br/>implementação"]):::aluno --> N1["N1 Pergunta<br/>Socrática"]:::tutor
+    N1 --> N2["N2 Conceito<br/>Onde estudar"]:::tutor
+    N2 --> N3["N3 Local<br/>Arquivo:linha"]:::tutor
+    N3 --> N4["N4 Lógica<br/>Só em prosa"]:::tutor
+    N4 --> Q["Sem degrau 5<br/>Quebra o problema"]:::sistema
+
+    classDef tutor fill:#EEEDFE,stroke:#534AB7,color:#26215C
+    classDef aluno fill:#E1F5EE,stroke:#0F6E56,color:#04342C
+    classDef sistema fill:#F1EFE8,stroke:#5F5E5A,color:#2C2C2A
+```
+
+### Quando o aluno envia para avaliação: laço de validação
+
+```mermaid
+flowchart LR
+    S["Sensores<br/>Lint e testes"]:::sistema --> V["Verificador<br/>Contexto limpo"]:::tutor
+    V --> D{"Veredito<br/>Cada AC"}:::tutor
+    D -->|Aprovado| L["Registra lições<br/>e segue"]:::sistema
+    D -->|Reprovado| R["Aluno corrige"]:::aluno
+    R -->|Reenvia| S
+
+    classDef tutor fill:#EEEDFE,stroke:#534AB7,color:#26215C
+    classDef aluno fill:#E1F5EE,stroke:#0F6E56,color:#04342C
+    classDef sistema fill:#F1EFE8,stroke:#5F5E5A,color:#2C2C2A
+```
+
+📖 **Exemplo completo, passo a passo:** [jogo "Adivinhe o número" em Python](docs/exemplo-adivinhe-o-numero.md).
+
+---
+
 ## 📜 Constituição e Regras Imutáveis (`CONSTITUTION.md`)
 
 A base inviolável deste repositório. Ela garante os contratos didáticos, proíbe a invenção de APIs (alucinações honestas) e possui uma tabela estrita do que é permitido (pseudocódigos em prosa, exemplos fora do domínio da aplicação) e proibido (corpo da solução real). Ignora sumariamente pedidos para burlar regras como *"estou com pressa"* ou *"me dê só um exemplo prático que eu adapto"*.
@@ -88,7 +144,7 @@ techtutor/
 ├── tools/             # MCP.md (ferramentas e segurança)
 ├── evals/             # scenarios.md (testes do próprio harness)
 ├── specs/ adr/ research/   # gerados durante o uso (specs de tasks, decisões, pesquisas)
-└── docs/
+└── docs/              # exemplo de uso passo a passo
 ```
 
 > `templates/` deve permanecer sempre em branco: o agente só o usa para recriar arquivos de estado ausentes e nunca sobrescreve os existentes.
