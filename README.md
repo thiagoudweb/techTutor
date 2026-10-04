@@ -36,7 +36,7 @@ O sistema opera através de um roteador inteligente (`AGENTS.md`) que aciona sub
 * **🏗️ Arquiteto de Soluções Poliglota (`stacks/<x>.md`):** Sugere a melhor stack de tecnologia baseada na sua ideia (100% agnóstico de linguagem). Ele gera decisões de arquitetura (ADRs) e revisa seu design focando em escalabilidade e segurança.
 * **🔎 Code Review Sênior (Modo Convergência):** Após você enviar sua implementação, o subagente `code-evaluator` roda isolado, acionando sensores mecânicos (linters, type checkers, testes de mutação). O feedback sai no formato estrito: `arquivo:linha · severidade · conceito · evidência`.
 * **🛠️ Suporte a Ferramentas & MCP:** Ensina a configurar o ambiente, utilizar Git e estruturar testes automatizados. Usa o `debugging-coach` (Método Científico) para ensinar a ler logs e <i>stack traces</i>, forçando você a achar a causa raiz. A integração de ferramentas segue o padrão seguro **Model Context Protocol (MCP)**.
-* **🧠 Memória de Aprendizado Ativa (`LESSONS.md`):** O agente acompanha sua evolução. Ele lê e escreve regras em um mapeamento de domínio (níveis 0 a 3), lembrando das suas dificuldades anteriores para calibrar o nível de dificuldade das próximas tarefas dinamicamente.
+* **🧠 Memória de Aprendizado Ativa (`memory/LESSONS.md`):** O agente acompanha sua evolução. Ele lê e escreve regras em um mapeamento de domínio (níveis 0 a 3), lembrando das suas dificuldades anteriores para calibrar o nível de dificuldade das próximas tarefas dinamicamente.
 
 ---
 
@@ -45,7 +45,7 @@ O sistema opera através de um roteador inteligente (`AGENTS.md`) que aciona sub
 * **`spec-writer` (EARS & GWT):** Transforma ideias em requisitos verificáveis usando sintaxes formais de engenharia (Dado/Quando/Então).
 * **Filtro de Esclarecimento (Clarify Gate):** Bloqueia ativamente o avanço de uma task para "Pronto" se houver suposições em aberto.
 * **Auto-Sizing Inteligente:** Classifica as tasks em 🟢 Pequenas (≤3 arquivos, pula o planejamento denso), 🟡 Médias ou 🔴 Grandes (exige árvore de dependências e TDD).
-* **Contexto RPI (Research, Plan, Implement):** Sessões de chat limpas e transferências isoladas via `HANDOFF.md` para evitar perda de intenção e alucinações.
+* **Contexto RPI (Research, Plan, Implement):** Sessões de chat limpas e transferências isoladas via `memory/HANDOFF.md` para evitar perda de intenção e alucinações.
 
 ---
 
@@ -62,6 +62,8 @@ O processo de ensino para cada nova funcionalidade segue um ciclo rigoroso de 8 
 7. **Code Review:** O agente avalia seu código usando sensores da stack.
 8. **Refatoração ou Avanço:** O agente solicita correções em caso de falhas críticas ou autoriza o avanço para a próxima etapa.
 
+> Esses 8 passos se encaixam nas 6 fases do SDD (Specify → Clarify → Plan → Tasks → Implement → Validate). A tabela de correspondência está em [`AGENTS.md`](AGENTS.md).
+
 ---
 
 ## 📜 Constituição e Regras Imutáveis (`CONSTITUTION.md`)
@@ -70,12 +72,36 @@ A base inviolável deste repositório. Ela garante os contratos didáticos, pro�
 
 ---
 
+## 🗂️ Estrutura do Repositório
+
+```
+techtutor/
+├── AGENTS.md          # ponto de entrada e roteador (leia primeiro)
+├── CONSTITUTION.md    # regras imutáveis
+├── PROJECT.md         # contexto do aluno e do projeto
+├── memory/            # LESSONS.md (memória pedagógica) · HANDOFF.md (passagem de contexto)
+├── templates/         # cópias em branco de PROJECT, LESSONS e HANDOFF (recriação se faltarem)
+├── skills/            # 10 skills: stack-architect, spec-writer, clarify, plan-and-tasks,
+│                      # code-evaluator, debugging-coach, concept-explainer, tech-lead-review,
+│                      # lessons-keeper, harness-builder
+├── stacks/            # perfis plugáveis por stack (_template.md)
+├── tools/             # MCP.md (ferramentas e segurança)
+├── evals/             # scenarios.md (testes do próprio harness)
+├── specs/ adr/ research/   # gerados durante o uso (specs de tasks, decisões, pesquisas)
+└── docs/
+```
+
+> `templates/` deve permanecer sempre em branco: o agente só o usa para recriar arquivos de estado ausentes e nunca sobrescreve os existentes.
+
+---
+
 ## 🛠️ Como Utilizar (Setup)
 
 1. **Setup Inicial:** Defina o `AGENTS.md` como instrução de entrada do seu modelo local ou na sua IDE com IA.
 2. **Defina a Stack:** Crie ou carregue o perfil da linguagem desejada na pasta `stacks/`.
 3. **Inicie o Ciclo:** Apresente a ideia do projeto para que o `stack-architect` inicialize o fluxo.
-4. **Harness Builder (Bônus - Workflow D):** Além de programar, o tutor possui um currículo em 6 marcos para ensinar você a construir seu próprio ecossistema Harness do zero.
+4. **Validação (recomendado):** rode os cenários de [`evals/scenarios.md`](evals/scenarios.md) para confirmar que o agente respeita a Constituição antes de usar de verdade.
+5. **Harness Builder (Bônus - Workflow D):** Além de programar, o tutor possui um currículo em 6 marcos para ensinar você a construir seu próprio ecossistema Harness do zero.
 
 ---
 
